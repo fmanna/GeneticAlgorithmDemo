@@ -5,7 +5,7 @@ class Individual:
         self.geneLength = geneLength
         # Generate a random array of 1s and 0s
         self.genes = random.choices([0, 1], k=geneLength)
-        self.fitness = sum(self.genes)
+        self.fitness = 0
     
     def getGeneLength(self):
         return self.geneLength
@@ -15,6 +15,9 @@ class Individual:
     
     def getGenes(self):
         return self.genes
+
+    def calcFitness(self):
+        self.fitness = sum(self.genes)
 
     # Certain aberrations can be set to very low fitness, if necessary
     def setFitness(self, newFitness):
