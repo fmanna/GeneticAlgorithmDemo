@@ -13,6 +13,7 @@ class Population:
         maxFit = 0
         maxFitIndex = 0
         for individual in self.individuals:
+            individual.setFitness(individual.calcFitness())
             if individual.getFitness() > maxFit:
                 maxFit = individual.getFitness()
                 maxFitIndex = self.individuals.index(individual)
@@ -60,6 +61,15 @@ class Population:
     
     def getFittestScore(self):
         return self.fittestScore
+    
+    def getLeastFitIndex(self):
+        minFitVal = self.geneLength + 1
+        minFitIndex = 0
+        for i in range(self.geneLength):
+            if minFitVal > self.individuals[i].getFitness():
+                minFitVal = self.individuals[i].getFitness()
+                minFitIndex = i
+        return minFitIndex
     
     def setPopSize(self, newPopSize):
         self.popSize = newPopSize
