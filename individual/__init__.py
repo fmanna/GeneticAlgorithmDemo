@@ -11,10 +11,13 @@ class Individual:
         return self.geneLength
 
     def getFitness(self):
-        return self.fitness
+        return sum(self.genes)
     
     def getGenes(self):
         return self.genes
+
+    def calcFitness(self):
+        return sum(self.genes)
 
     # Certain aberrations can be set to very low fitness, if necessary
     def setFitness(self, newFitness):
