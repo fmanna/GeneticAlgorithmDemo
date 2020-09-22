@@ -10,11 +10,11 @@ class Population:
 
     @property
     def fittest(self):
-        fittest, _ = self.selectfittestpair()
+        fittest, _ = self.selectFittestPair()
         return fittest
     @property
     def secondFittest(self):
-        _, secondFittest = self.selectfittestpair()
+        _, secondFittest = self.selectFittestPair()
         return secondFittest
     @property
     def fittestScore(self):
