@@ -13,7 +13,6 @@ class Population:
         maxFit = 0
         maxFitIndex = 0
         for individual in self.individuals:
-            individual.setFitness(individual.calcFitness())
             if individual.getFitness() > maxFit:
                 maxFit = individual.getFitness()
                 maxFitIndex = self.individuals.index(individual)
@@ -48,7 +47,7 @@ class Population:
             cloneOfFittest2.setFitness(self.individuals[maxFitIndex2].getFitness())
             return cloneOfFittest1, cloneOfFittest2
         except:
-            print("Could not clone fittest pairof indexes " + maxFitIndex1 + " " + maxFitIndex2)
+            print("Could not clone fittest pair of indexes " + maxFitIndex1 + " " + maxFitIndex2)
     
     def getPopSize(self):
         return self.popSize
@@ -65,11 +64,15 @@ class Population:
     def getLeastFitIndex(self):
         minFitVal = self.geneLength + 1
         minFitIndex = 0
-        for i in range(self.geneLength):
-            if minFitVal > self.individuals[i].getFitness():
-                minFitVal = self.individuals[i].getFitness()
-                minFitIndex = i
+        for individual in self.individuals:
+            if minFitVal > individual.getFitness():
+                minFitVal = individual.getFitness()
+                minFitIndex = self.individuals.index(individual)
         return minFitIndex
+    
+    # def removeLeastFit(self):
+    #     minFitVal = self.geneLength + 1
+        
     
     def setPopSize(self, newPopSize):
         self.popSize = newPopSize
