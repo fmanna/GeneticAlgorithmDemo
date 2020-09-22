@@ -4,26 +4,25 @@ class Population:
     def __init__(self, popSize, geneLength):
         self.popSize = popSize
         self.geneLength = geneLength
-        self.fittestScore = 0
         self.individuals = []
         for i in range(popSize):
             self.individuals.append(Individual(self.geneLength))
 
-    def selectFittest(self):
-        maxFit = 0
-        maxFitIndex = 0
-        for individual in self.individuals:
-            if individual.getFitness() > maxFit:
-                maxFit = individual.getFitness()
-                maxFitIndex = self.individuals.index(individual)
-        self.fittestScore = maxFit
-        try:
-            cloneOfFittest = Individual(self.geneLength)
-            cloneOfFittest.setGenes(self.individuals[maxFitIndex].getGenes())
-            cloneOfFittest.setFitness(self.individuals[maxFitIndex].getFitness())
-            return cloneOfFittest
-        except:
-            print("Could not clone individual in index " + maxFitIndex)
+    @property
+    def fittest(self):
+        fittest, _ = self.selectfittestpair()
+        return fittest
+    @property
+    def secondFittest(self):
+        _, secondFittest = self.selectfittestpair()
+        return secondFittest
+    @property
+    def fittestScore(self):
+        return self.fittest.getFitness()
+    @property
+    def leastFit(self):
+        return getLeastFit()
+    
 
     def selectFittestPair(self):
         maxFit1 = 0
@@ -48,40 +47,15 @@ class Population:
             return cloneOfFittest1, cloneOfFittest2
         except:
             print("Could not clone fittest pair of indexes " + maxFitIndex1 + " " + maxFitIndex2)
-    
-    def getPopSize(self):
-        return self.popSize
-
-    def getIndividuals(self):
-        return self.individuals
-    
-    def getGeneLength(self):
-        return self.geneLength
-    
-    def getFittestScore(self):
-        return self.fittestScore
-    
-    def getLeastFitIndex(self):
+ 
+    def getLeastFit(self):
         minFitVal = self.geneLength + 1
-        minFitIndex = 0
         for individual in self.individuals:
             if minFitVal > individual.getFitness():
                 minFitVal = individual.getFitness()
-                minFitIndex = self.individuals.index(individual)
-        return minFitIndex
+                minFitIndividual = individual
+        return minFitIndividual
     
-    # def removeLeastFit(self):
-    #     minFitVal = self.geneLength + 1
-        
+    def removeLeastFit(self):
+        self.individuals.remove(getLeastFit())
     
-    def setPopSize(self, newPopSize):
-        self.popSize = newPopSize
-    
-    def setGeneLength(self, newGeneLength):
-        self.geneLength = newGeneLength
-    
-    def setFittestScore(self, newFittestScore):
-        self.fittestScore = newFittestScore
-    
-    def setIndividuals(self, newIndividuals):
-        self.individuals = newIndividuals
