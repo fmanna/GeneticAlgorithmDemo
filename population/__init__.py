@@ -18,7 +18,7 @@ class Population:
         return secondFittest
     @property
     def fittestScore(self):
-        return self.fittest.getFitness()
+        return self.fittest.fitness
     @property
     def leastFit(self):
         return getLeastFit()
@@ -30,32 +30,42 @@ class Population:
         maxFitIndex1 = 0
         maxFitIndex2 = 1
         for individual in self.individuals:
-            if individual.getFitness() > maxFit1:
-                maxFit1 = individual.getFitness()
+            if individual.fitness > maxFit1:
+                maxFit1 = individual.fitness
                 maxFitIndex1 = self.individuals.index(individual)
-            elif individual.getFitness() > maxFit2:
-                maxFit2 = individual.getFitness()
+            elif individual.fitness > maxFit2:
+                maxFit2 = individual.fitness
                 maxFitIndex2 = self.individuals.index(individual)
-        self.fittestScore = maxFit1
         try:
             cloneOfFittest1 = Individual(self.geneLength)
-            cloneOfFittest1.setGenes(self.individuals[maxFitIndex1].getGenes())
-            cloneOfFittest1.setFitness(self.individuals[maxFitIndex1].getFitness())
+            cloneOfFittest1.genes = self.individuals[maxFitIndex1].genes
             cloneOfFittest2 = Individual(self.geneLength)
-            cloneOfFittest2.setGenes(self.individuals[maxFitIndex2].getGenes())
-            cloneOfFittest2.setFitness(self.individuals[maxFitIndex2].getFitness())
+            cloneOfFittest2.genes = self.individuals[maxFitIndex2].genes
             return cloneOfFittest1, cloneOfFittest2
         except:
-            print("Could not clone fittest pair of indexes " + maxFitIndex1 + " " + maxFitIndex2)
- 
+            print("Could not clone fittest pair of indexes {0} {1}".format(maxFitIndex1,maxFitIndex2))
+
     def getLeastFit(self):
         minFitVal = self.geneLength + 1
         for individual in self.individuals:
-            if minFitVal > individual.getFitness():
-                minFitVal = individual.getFitness()
+            if minFitVal > individual.fitness:
+                minFitVal = individual.fitness
                 minFitIndividual = individual
         return minFitIndividual
     
     def removeLeastFit(self):
-        self.individuals.remove(getLeastFit())
+        try:
+            minFitVal = self.geneLength + 1
+            for individual in self.individuals:
+                if minFitVal > individual.fitness:
+                    minFitVal = individual.fitness
+                    minFitIndividual = individual
+            self.individuals.remove(minFitIndividual)
+        except:
+            print("Could not remove least fit individual")
     
+    def addToPopulation(self, newIndividual):
+        self.individuals.append(newIndividual)
+
+def individualFitHelper(elem):
+    return elem.fitness
