@@ -53,10 +53,15 @@ def main():
     verbose = True
     ## Set generation breakpoint. Set limitGenerations to True to break after maxGenerations has been hit.
     limitGenerations = True
-    maxGenerations = 30
+    maxGenerations = 300
+    ## Set mutation rate, 0-100 out of 100
+    mutationRate = 20
 
     # Initialize population in this demo object
     demo = SimpleDemoGA(numberOfIndividuals, numberOfGenes)
+    # Restart trivial populations, i.e. ones that have a solution before crossover
+    while demo.population.fittestScore == demo.numberOfGenes:
+        demo = SimpleDemoGA(numberOfIndividuals, numberOfGenes)
 
     print("Initial population of {0} individuals.".format(demo.population.popSize))
     demo.showGeneticPool()
@@ -70,24 +75,29 @@ def main():
         fittestOffspring = demo.crossover()
         # Mutation - random chance
         # Mutate if random number mod 7 is less than 5
-        mutationTrigger = random.randrange(100) % 7
-        if mutationTrigger < 4:
+        mutationTrigger = random.randrange(100)
+        if mutationTrigger <= mutationRate:
             demo.mutation(fittestOffspring)
         # Remove least fit individual, replace with offspring of fittest and secondFittest
         demo.addFittestOffspring(fittestOffspring)
         print("\nGeneration: {0} Fittest Score (out of {1}): {2}".format(demo.generationCount,demo.numberOfGenes,demo.population.fittestScore))
         print("Mutation Trigger: {0}".format(mutationTrigger))
         print("Fittest Parents {0}\t{1}".format(demo.population.fittest.genes,demo.population.secondFittest.genes))
-        print("Their beautiful child {0}".format(fittestOffspring.genes))
+        print("Their beautiful child {0}\n".format(fittestOffspring.genes))
         # If verbose is set, print entire generation
         if verbose:
             demo.showGeneticPool()
         if limitGenerations and demo.generationCount >= maxGenerations:
             break
     # End main loop
-
-    # Solution found, give 'victory screen'
-    print("\nSolution found in generation {0}".format(demo.generationCount))
+    
+    if demo.population.fittestScore < demo.numberOfGenes:
+        # Solution not found
+        print("\nSolution NOT found by generation {0}".format(demo.generationCount))
+        print("Hint: Try more mutations, or increase the generation count.")
+    else:
+        # Solution found, give 'victory screen'
+        print("\nSolution found in generation {0}! Congratulations!".format(demo.generationCount))
     print("Fitness: {0}".format(demo.population.fittestScore))
     print("Genes: {0}".format(demo.population.fittest.genes))
 
