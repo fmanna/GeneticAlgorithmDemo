@@ -41,6 +41,7 @@ class SimpleDemoGA:
             print("Individual: {0} Fit: {1} {2}".format(self.population.individuals.index(individual),individual.fitness,individual.genes))
         print("================")
 
+
 # Main
 
 def main():
@@ -48,7 +49,7 @@ def main():
     ## Number of individuals per population
     numberOfIndividuals = 10
     ## Number of genes per individual
-    numberOfGenes = 10
+    numberOfGenes = 5
     ## Set verbose to True to print each genetic pool to the console
     verbose = True
     ## Set generation breakpoint. Set limitGenerations to True to break after maxGenerations has been hit.
@@ -56,6 +57,8 @@ def main():
     maxGenerations = 300
     ## Set mutation rate, 0-100 out of 100
     mutationRate = 20
+    ## Initial setting to pause after each generation
+    pauseGenerations = 'y'
 
     # Initialize population in this demo object
     demo = SimpleDemoGA(numberOfIndividuals, numberOfGenes)
@@ -81,12 +84,16 @@ def main():
         # Remove least fit individual, replace with offspring of fittest and secondFittest
         demo.addFittestOffspring(fittestOffspring)
         print("\nGeneration: {0} Fittest Score (out of {1}): {2}".format(demo.generationCount,demo.numberOfGenes,demo.population.fittestScore))
-        print("Mutation Trigger: {0}".format(mutationTrigger))
+        if mutationTrigger <= mutationRate:
+            print("~~~~~~~~~ MUTANT ~~~~~~~~~\nMutation Trigger: {0}".format(mutationTrigger))
         print("Fittest Parents {0}\t{1}".format(demo.population.fittest.genes,demo.population.secondFittest.genes))
         print("Their beautiful child {0}\n".format(fittestOffspring.genes))
         # If verbose is set, print entire generation
         if verbose:
             demo.showGeneticPool()
+        if pauseGenerations == 'y':
+            print("Pause at next generation? [Y/n]")
+            pauseGenerations = input() or 'y'
         if limitGenerations and demo.generationCount >= maxGenerations:
             break
     # End main loop
