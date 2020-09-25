@@ -49,7 +49,7 @@ def main():
     ## Number of individuals per population
     numberOfIndividuals = 10
     ## Number of genes per individual
-    numberOfGenes = 5
+    numberOfGenes = 10
     ## Set verbose to True to print each genetic pool to the console
     verbose = True
     ## Set generation breakpoint. Set limitGenerations to True to break after maxGenerations has been hit.
