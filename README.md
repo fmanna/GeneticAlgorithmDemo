@@ -9,5 +9,5 @@ Which is an implementation of an elegant, graphical demo of Genetic Algorithms: 
 
 ## Usage:
 1. Clone the repository.
-1a. Edit the `Parameters for population` section of `simple)ga_demo.py`'s `main():` function, if desired.
+   1. Edit the `Parameters for population` section of `simple)ga_demo.py`'s `main():` function, if desired.
 2. Run `python3 simple_ga_demo.py` from the repository directory (Python 3.7.7+ required).
